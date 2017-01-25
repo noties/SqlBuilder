@@ -16,5 +16,5 @@ dependencies {
 }
 
 if (project.hasProperty('release')) {
-    apply from: '../java-publishing-maven.gradle'
+    apply from: 'java-publishing-maven.gradle'
 }
