@@ -1,0 +1,20 @@
+/gradle
+gradlew
+gradlew.bat
+
+**/build
+
+# Java class files
+*.class
+
+# Project configuration file
+.DS_Store
+project.properties
+out
+
+# Intellij project files
+*.iml
+*.ipr
+*.iws
+.idea/
+.gradle/

@@ -1,0 +1,20 @@
+group 'ru.noties'
+version VERSION_NAME
+
+apply plugin: 'java'
+
+sourceCompatibility = '1.7'
+targetCompatibility = '1.7'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compileOnly 'com.google.code.findbugs:jsr305:3.0.1'
+    testCompile 'junit:junit:4.12'
+}
+
+if (project.hasProperty('release')) {
+    apply from: '../java-publishing-maven.gradle'
+}
