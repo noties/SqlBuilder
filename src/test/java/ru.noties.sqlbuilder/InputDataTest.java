@@ -350,4 +350,14 @@ public class InputDataTest {
         assertEquals((Integer) 1, idIterator.next());
         assertFalse(idIterator.hasNext());
     }
+
+    @Test
+    public void singleCharPlaceholder() {
+        final InputData data = InputData.create("select * from ${t} where id = ?{i}");
+        assertEquals(2, data.argsLength());
+        assertEquals(1, data.formatArgsLength());
+        assertEquals(1, data.bindArgsLength());
+        assertEquals((Integer) 0, data.formatArgIndexes("t").iterator().next());
+        assertEquals((Integer) 0, data.bindArgIndexes("i").iterator().next());
+    }
 }

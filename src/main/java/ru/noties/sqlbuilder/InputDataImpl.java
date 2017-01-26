@@ -72,7 +72,7 @@ class InputDataImpl extends InputData {
 
                 // extract name
                 final int left = start + 2;
-                if ((i - left) < 2) {
+                if ((i - left) < 1) {
                     throw new IllegalStateException("Named placeholder has empty name at index: `" + start + "`. " +
                             "Input: `" + input + "`");
                 }
