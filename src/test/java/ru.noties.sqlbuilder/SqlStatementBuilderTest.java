@@ -6,22 +6,13 @@ import static org.junit.Assert.*;
 
 public class SqlStatementBuilderTest {
 
-//    @Test
-//    public void nullInput() {
-//        try {
-//            SqlStatementBuilder.create(null);
-//            assertTrue(false);
-//        } catch (NullPointerException e) {
-//            assertTrue(true);
-//        }
-//    }
-
     @Test
     public void noNamedArguments() {
         final SqlStatementBuilder builder = SqlStatementBuilder.create("select * from table");
         builder.bind("not_present", 123L);
         try {
             builder.sqlStatement();
+            //noinspection ConstantConditions
             assertTrue(false);
         } catch (IllegalStateException e) {
             assertTrue(true);
@@ -33,6 +24,7 @@ public class SqlStatementBuilderTest {
         final SqlStatementBuilder builder = SqlStatementBuilder.create("select * from ${table}");
         try {
             builder.sqlStatement();
+            //noinspection ConstantConditions
             assertTrue(false);
         } catch (IllegalStateException e) {
             assertTrue(true);
@@ -50,6 +42,7 @@ public class SqlStatementBuilderTest {
 
         try {
             builder.sqlStatement();
+            //noinspection ConstantConditions
             assertTrue(false);
         } catch (IllegalStateException e) {
             assertTrue(true);
@@ -62,6 +55,7 @@ public class SqlStatementBuilderTest {
         builder.bind("id", 99);
         try {
             builder.sqlStatement();
+            //noinspection ConstantConditions
             assertTrue(false);
         } catch (IllegalStateException e) {
             assertTrue(true);
@@ -75,6 +69,7 @@ public class SqlStatementBuilderTest {
         builder.bind("name", "hello");
         try {
             builder.sqlStatement();
+            //noinspection ConstantConditions
             assertTrue(false);
         } catch (IllegalStateException e) {
             assertTrue(true);
