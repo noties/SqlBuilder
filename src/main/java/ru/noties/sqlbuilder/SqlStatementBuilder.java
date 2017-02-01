@@ -88,7 +88,7 @@ public abstract class SqlStatementBuilder {
      * @param value value of the binding argument
      * @return self to chain calls
      */
-    public abstract SqlStatementBuilder bind(@Nonnull String name, @Nonnull Object value);
+    public abstract SqlStatementBuilder bind(@Nonnull String name, @Nullable Object value);
 
     /**
      * Clears all bindings, that were previously bound by {@link #bind(String, Object)} calls

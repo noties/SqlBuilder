@@ -120,4 +120,17 @@ public class SqlStatementBuilderTest {
             assertArrayEquals(new Object[] { array[1] }, builder.sqlBindArguments());
         }
     }
+
+    @Test
+    public void bindingNullArguments() {
+        final SqlStatementBuilder builder = SqlStatementBuilder.create("update ${table} set id = ?{id}, name = ?{name} where time = ?{time}");
+        builder.bind("table", "table");
+        builder.bind("id", 45);
+        builder.bind("name", null);
+        builder.bind("time", -1L);
+
+        assertEquals("update table set id = ?, name = ? where time = ?", builder.sqlStatement());
+        assertArrayEquals(new Object[] { 45, null, -1L }, builder.sqlBindArguments());
+    }
 }
+

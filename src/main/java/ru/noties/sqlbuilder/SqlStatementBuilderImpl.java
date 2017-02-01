@@ -1,6 +1,7 @@
 package ru.noties.sqlbuilder;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
@@ -26,7 +27,7 @@ class SqlStatementBuilderImpl extends SqlStatementBuilder {
     }
 
     @Override
-    public SqlStatementBuilder bind(@Nonnull String name, @Nonnull Object value) {
+    public SqlStatementBuilder bind(@Nonnull String name, @Nullable Object value) {
         if (mArgumentsMap == null) {
             mArgumentsMap = new HashMap<>(3);
         }
