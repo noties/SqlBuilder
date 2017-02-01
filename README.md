@@ -1,6 +1,6 @@
 # SqlBuilder
 
-This is Java utility library to create SQL statements. Allows specifying named binding arguments.
+This is Java tiny utility library to create SQL statements. Allows specifying named binding arguments.
 
 ```java
  final SqlStatementBuilder builder = SqlStatementBuilder.create("select ${columns} from ${table} where id = ?{id}");
@@ -30,7 +30,7 @@ If some specific formatting is required `${modifier name}` can be used, for exam
 
 By default SqlStatementBuilder uses `Locale#US` for formatting.
 
-SQL statement and arguments are evaluated lazily, so if there is an error parsing input string an exception will be thrown on one of the calls to: {@link #sqlStatement()}, {@link #sqlBindArguments()}
+SQL statement and arguments are evaluated lazily, so if there is an error parsing input string an exception will be thrown on one of the calls to: `SqlStatementBuilder#sqlStatement()`, `SqlStatementBuilder#sqlBindArguments()`
 
 Right now exception is thrown if:
  * `SqlStatementBuilder#create(String)` or `SqlStatementBuilder#create(String, Locale)` are called with NULL as an `input` parameter
@@ -46,7 +46,17 @@ In order to create an instance of SqlStatementBuilder one of the static factory 
   * `SqlStatementBuilder#create(String)`
   * `SqlStatementBuilder#create(String, Locale)`
 
-Please note that SqlStatementBuilder is not thread safe. There is no any kind of synchronisation. If this class is intended to be used by multiple threads, user of this class must provide own means of synchronisation.
+## Limitations
+
+Please note that SqlStatementBuilder is **not thread safe**. There is no any kind of synchronisation. If this class is intended to be used by multiple threads, user of this class must provide own means of synchronisation.
+
+Also, all binding arguments must be present during initial creation, for example:
+```java
+SqlStatementBuilder.create("select * from ${table}${selection};")
+    .bind("table", "table_name")
+    .bind("selection", " where id = ?{id}") // not valid, cannot add placeholders by formatting
+    .bind("id", 45); // exception will be thrown as no named argument `id` is present during intial creation
+```
 
 
 ## License
