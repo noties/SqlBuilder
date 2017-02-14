@@ -29,7 +29,6 @@ class SqlStatementBuilderImpl extends SqlStatementBuilder {
     private final String mInput;
     private final Locale mLocale;
 
-    private InputData mInputData;
     private String mSqlStatement;
     private Object[] mSqlBindArgs;
     private Map<String, Object> mArgumentsMap;
@@ -77,12 +76,7 @@ class SqlStatementBuilderImpl extends SqlStatementBuilder {
 
     private void bind() {
 
-        final InputData data;
-        if (mInputData == null) {
-            data = mInputData = InputData.create(mInput);
-        } else {
-            data = mInputData;
-        }
+        final InputData data = InputData.create(mInput);
 
         // next detect if we need to `string.format` input
         final int argsLength = data.argsLength();

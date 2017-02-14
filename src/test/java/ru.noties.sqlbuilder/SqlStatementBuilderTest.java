@@ -148,5 +148,44 @@ public class SqlStatementBuilderTest {
         assertEquals("update table set id = ?, name = ? where time = ?", builder.sqlStatement());
         assertArrayEquals(new Object[] { 45, null, -1L }, builder.sqlBindArguments());
     }
+
+    @Test
+    public void visitorIsCalled() {
+        final SqlStatementBuilder.Visitor visitor = new SqlStatementBuilder.Visitor() {
+            @Override
+            public void visit(SqlStatementBuilder builder) {
+                builder.bind("table", "my_table");
+            }
+        };
+        final SqlStatementBuilder builder = SqlStatementBuilder.create("select * from ${table}")
+                .accept(visitor);
+
+        assertEquals("select * from my_table", builder.sqlStatement());
+        assertNull(builder.sqlBindArguments());
+    }
+
+    @Test
+    public void visitorIsNotCalledAfterClear() {
+        final SqlStatementBuilder.Visitor visitor = new SqlStatementBuilder.Visitor() {
+            @Override
+            public void visit(SqlStatementBuilder builder) {
+                builder.bind("table", "my_table");
+            }
+        };
+        final SqlStatementBuilder builder = SqlStatementBuilder.create("select count(1) from ${table}")
+                .accept(visitor);
+        assertEquals("select count(1) from my_table", builder.sqlStatement());
+        assertNull(builder.sqlBindArguments());
+
+        builder.clearBindings();
+
+        try {
+            builder.sqlStatement();
+            //noinspection ConstantConditions
+            assertTrue(false);
+        } catch (IllegalStateException e) {
+            assertTrue(true);
+        }
+    }
 }
 

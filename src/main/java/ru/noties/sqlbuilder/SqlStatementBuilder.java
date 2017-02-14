@@ -98,6 +98,26 @@ public abstract class SqlStatementBuilder {
     }
 
     /**
+     * A visitor interface. Can be used to bind pre-defined values.
+     * For example, a SQL statement can have 2 common arguments, so
+     * a generic visitor can be created:
+     * {@code
+     *      final Visitor visitor = new Visitor() {
+     *          @Override
+     *          public void visit(SqlStatementBuilder builder) {
+     *              builder.bind("table", "my_table");
+     *              builder.bind("order_by", "my_column ASC");
+     *          }
+     *      };
+     *      final SqlStatementBuilder builder = SqlStatementBuilder.create("select * from ${table} ${order_by}")
+     *              .accept(visitor);
+     * }
+     */
+    public interface Visitor {
+        void visit(SqlStatementBuilder builder);
+    }
+
+    /**
      * Does not allow null as a `value` parameter. In SQL the better way is to use:
      * `is null` statement
      * @param name of the parameter to be bound
@@ -123,4 +143,14 @@ public abstract class SqlStatementBuilder {
      * @throws IllegalStateException if there was an error parsing/preparing the SQL statement
      */
     public abstract Object[] sqlBindArguments() throws IllegalStateException;
+
+    /**
+     * @param visitor non-null visitor
+     * @return a `this` instance for chaining calls
+     * @see Visitor
+     */
+    public SqlStatementBuilder accept(@Nonnull Visitor visitor) {
+        visitor.visit(this);
+        return this;
+    }
 }
